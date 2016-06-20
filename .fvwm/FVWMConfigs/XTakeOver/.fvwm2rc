@@ -1,0 +1,18 @@
+Desktop Size 1 0
+
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Exec exec xsetroot -solid black
++ I Exec exec ~/.fvwm/FVWMConfigs/Shell\ Scripts/LessonOne.sh
+
+# Mouse click on root
+Mouse 1	R   A  Exec xmessage -name "XTakeOver!" -bg black \
+   -fg white -nearmouse -timeout 1 'This Will Teach You To Use Gnome!'
+ 
+Mouse 2	R   A  Exec xmessage -name "XTakeOver!" -bg black \
+   -fg white -nearmouse -timeout 1 'Make your OWN Window Manager'
+
+Mouse 3	R   A  Exec xmessage -name "XTakeOver!" -bg black \
+   -fg white -nearmouse -timeout 1 'Dumb User!'
+
+

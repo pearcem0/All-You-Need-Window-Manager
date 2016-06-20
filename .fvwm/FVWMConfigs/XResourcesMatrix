@@ -1,0 +1,5 @@
+XTerm*background: black
+XTerm*cursorColor: lightgrey
+XTerm*foreground: green
+XTerm*saveLines: 1024
+XTerm*scrollBar: true

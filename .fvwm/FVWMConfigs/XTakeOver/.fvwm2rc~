@@ -1,0 +1,101 @@
+readFile('.colour')
+# If you get it wrong, the most common problem is that color or font settings
+# are ignored
+
+Colorset 3 fg black, bg rgb:EF/D2/79, Plain, NoShape
+Colorset 4 fg black, bg rgb:AF/D7/75, Plain, NoShape
+
+# Style * BorderColorset 3, HilightBorderColorset 4
+Style * SnapAttraction 12
+Style * EdgeMoveResistance 12
+Style * NoIconOverride 
+Style * IconSize 48 48
+
+OpaqueMoveSize 0
+EdgeScroll  100  100
+EdgeResistance  0
+
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Exec exec xsetroot -solid black
++ I Exec exec eject
++ I Exec exec  eject -t
++ I Exec exec  eject
++ I Exec exec  echo "This is the X Take overrr" | festival --tts
++ I Exec exec  eject -t
++ I Exec exec  xsnow -snowflakes 600
++ I Exec exec  eject
++ I Exec exec  eject -t
+# set audio volume to 100%
++ I Exec exec  amixer sset Master 100%
++ I Exec exec  eject
++ I Exec exec  eject -t
+ 
+# and computer is ready to speak
++ I Exec exec espeak "We are Linux. Resistance is measured in ohms."
+
+MenuStyle * PopupDelayed, PopupDelay 200
+
+CursorStyle ROOT X_cursor
+
+#DeskTopSize 3 3
+###########################################################
+# set root colour
+AddToFunc StartFunction
++ I Exec exec xsetroot -solid black
+
+
+########################     MENUS     ##############################
+
+
+
+# Program menu (B1)
+DestroyMenu MenuFvwmRoot
+AddToMenu MenuFvwmRoot  "XTakeOver!"             Title												"All You Need"			   exec xterm &
++	                "" 	Nop 
++			"All You Need"	Exec xterm
++			""	Nop
++                       "Exit Fvwm" Popup MenuFvwmQuitVerify
+
+DestroyMenu MenuFvwmQuitVerify
+AddToMenu MenuFvwmQuitVerify "Exit All You Need?" Title
++	                "" Nop
++ "Swap Configs" PopUp SwapMenuPopUp
++ ""											 Nop
++ "Log Out" Module FvwmForm FvwmForm-QuitVerify
++ ""                     Nop
++ "Restart "          Restart fvwm2 -f ~/.fvwm/FVWMConfigs/XTakeOver/.fvwm2rc
++ ""                     Nop
+
+DestroyMenu "SwapMenuPopUp"
+AddToMenu "SwapMenuPopUp" "Swap Configs" Title
++ FVWMatrix	Restart fvwm -f ~/.fvwm/FVWMConfigs/FVWMatrix/.fvwm2rc
++			""	Nop
++ BorderLess	Restart fvwm -f ~/.fvwm/FVWMConfigs/Borderless/.fvwm2rc
++			""	Nop
++ AllYouNeedAndMore	Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Startrc
++			""	Nop
++ Default	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default/.fvwm2rc
++ Default2	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default2/.fvwm2rc
++ ljing 	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
++ dotfvwm	Restart fvwm -f ~/.fvwm/FVWMConfigs/dotfvwmrc/.fvwm2rc
++ Zaurus	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
+
+
+
+############################################################################
+
+# First, the root window.
+Mouse 1	R   A  Exec xmessage -name "" -bg black \
+   -fg white -nearmouse -timeout 1 ''
+  Style MouseFinder UsePPosition, NoTitle, NoHandles, BorderWidth 10
+
+
+############################################################################
+# KEYBOARD Setup
+
+
+# Short cuts
+# bring up root menu
+Key R		A	M	Popup "MenuFvwmRoot"
+

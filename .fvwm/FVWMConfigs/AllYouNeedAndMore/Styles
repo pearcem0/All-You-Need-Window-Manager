@@ -1,0 +1,57 @@
+# Default styles common to all windows created
+
+# style options 
+Style "*" BorderWidth 1 
+Style "*" HandleWidth 1
+Style "*" Title, Color #a7bdba/#33322F
+Style "*" DecorateTransient
+# Style "*" NoIcon
+
+Style * SloppyFocus, FPLenient, FPOverrideGrabFocus, !FPGrabFocus, !FPGrabFocusTransient
+Style * TileCascadePlacement, EWMHPlacementUseWorkingArea
+Style * DecorateTransient
+Style * MwmDecor, EWMHUseStackingOrderHints
+Style * BorderColorset 3, HilightBorderColorset 4 
+Style * SnapAttraction 12
+Style * EdgeMoveResistance 12
+Style * IconSize 48 48
+Style * IconBox 256x480-0+220@c, IconFill t r
+Style tint2 StaysOnTop, NeverFocus
+Style Conky NeverFocus
+
+#Application specific styles.
+Style Fvwm*  Sticky, WindowListSkip, !Title, CirculateSkip, !Handles
+Style FvwmConsole Title, Handles
+Style Vim* Title, Handles
+#Style *xterm* StartsOnPage 0 0 0, SkipMapping
+#Style *Firefox* StartsOnPage 1 0 0, SkipMapping
+
+# AddToDecor allows for things like vector buttons to be defined.
+AddToDecor   fDecor
++ BorderStyle Simple
++ TitleStyle  -- Raised
++ ButtonStyle All -- Raised
++ AddButtonStyle 1 Vector 5 25x40@1 25x60@1 75x60@0 75x40@0 25x40@1
++ AddButtonStyle 2 Vector 4 50x25@1 75x75@0 25x75@0 50x25@1
++ AddButtonStyle 4 Vector 4 50x75@1 25x25@1 75x25@1 50x75@0
++ ButtonStyle 1 - Clear MWMDecorMenu
++ ButtonStyle 2 - Clear MWMDecorMax
++ ButtonStyle 4 - Clear MWMDecorMin
+
+# Menu styles...
+MenuStyle MWM
+MenuStyle * Font  -adobe-helvetica-bold-r-*-*-12-*-*-*-*-*-*-*
+
+DestroyMenu "FvwmMenuWindowOps"
+AddToMenu "FvwmMenuWindowOps" "WindowOps" Title
++              "&Move" Pick Move 
++              "&Resize" Pick Resize 
++              "(De)&Iconify" Iconify
++              "(Un)&Stick" Stick
++              "(Un)Ma&ximize" Function FuncFvwmMaximizeFullScreen
++              "" Nop
++              "D&estroy" Destroy
+
+
+Style FvwmButtons !Title, !Handles, CirculateSkip, NeverFocus, Sticky, \
+      WindowListSkip

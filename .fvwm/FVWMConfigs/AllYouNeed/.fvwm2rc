@@ -1,0 +1,314 @@
+readFile('.colour')
+# If you get it wrong, the most common problem is that color or font settings
+# are ignored
+
+Colorset 3 fg black, bg rgb:EF/D2/79, Plain, NoShape
+Colorset 4 fg black, bg rgb:AF/D7/75, Plain, NoShape
+
+# Style * BorderColorset 3, HilightBorderColorset 4
+Style * SnapAttraction 12
+Style * EdgeMoveResistance 12
+Style * NoIconOverride 
+Style * IconSize 48 48
+
+OpaqueMoveSize 0
+EdgeScroll  100  100
+EdgeResistance  450
+*LoginGrabServer
+*LoginWarpPointer
+*LoginFont         *helvetica*m*r*n*14*
+*LoginButtonFont   *helvetica*m*o*n*14*
+*LoginInputFont    *cour*m*r*n*14*
+*LoginFore         White
+#Bisque
+*LoginBack         Blue4
+#*LoginItemFore     Bisque
+*LoginItemBack     Gray50
+
+# begin items
+*LoginLine         center
+*LoginText         "Start Options:"
+*LoginLine         center
+*LoginButton	   quit " All You Need " ^[
+*LoginLine         center
+*LoginButton       quit "All You Need And More" ^M
+*LoginCommand 	   RunProgs
+
+Style "Login" !Title, !Handles, BorderWidth 10
+
+
+AddToFunc StartFunction
+AddToFunc "InitFunction" "I" Module FvwmButtons
++		"I" Next [!iconic CurrentScreen xterm] Focus
++		"I" CursorMove 30 40
++ I Exec exec xsetroot -solid black
++ I Test (Init) Module FvwmForm Login
+
+
+AddToFunc "RestartFunction" "I" Module FvwmButtons
++		"I" Next [!iconic CurrentScreen xterm] Focus
++		"I" CursorMove 30 40
++ I Exec exec xsetroot -solid black
++ I Test (Init) Module FvwmForm Login
++ I Module FvwmButtons -g 13x80+1268+880 Buttons-Slider
+
+
+DestroyFunc RunProgs
+AddToFunc RunProgs
++ "I" Restart fvwm2 -f ~/.fvwm/FVWMConfig/AllYouNeedAndMore/Startrc
+#+ I ~/.fvwm/FVWMConfigs/Shell\ Scripts/changemanager.sh
+
+AddToFunc ExitFunction I Nop
+
+AddToFunction "InitFunction" "I" Module FvwmButtons
++ "I" Next [!iconic CurrentScreen xterm] Focus
++ "I" CursorMove 30 40
+
+AddToFunction "RestartFunction" "I" Module FvwmButtons
++ "I" Next [!iconic CurrentScreen xterm] Focus
++ "I" CursorMove 30 40
+
+
+
+MenuStyle * PopupDelayed, PopupDelay 200
+# Lots of differnt cursors to choose from! (providing you have them)
+# make into menu?
+CursorStyle ROOT top_left_arrow
+#CursorStyle ROOT X_cursor
+#CursorStyle ROOT bogosity
+#CursorStyle ROOT box_spiral
+#CursorStyle ROOT cross
+#CursorStyle ROOT dotbox
+#CursorStyle ROOT exchange
+#CursorStyle ROOT hand2
+#CursorStyle ROOT left_side
+#CursorStyle ROOT man
+#CursorStyle ROOT plus
+#CursorStyle ROOT arrow
+#CursorStyle ROOT bottom_left_corner
+#CursorStyle ROOT center_ptr
+#CursorStyle ROOT heart
+#CursorStyle ROOT spraycan
+#CursorStyle ROOT mouse
+#CursorStyle ROOT xterm
+#CursorStyle ROOT umbrella
+
+DeskTopSize 3 3 
+###########################################################
+# set root colour
+AddToFunc StartFunction
+#+ I Exec exec xsetroot -solid white
++ I Exec exec xsetroot -solid black
+#+ I Exec exec xsetroot -solid blue
+#+ I Exec exec xsetroot -solid pink
+
+############################################################################
+
+# Stuff to do at start-up
+# will find file, if not set colour chosen above
+Exec xloadimage -onroot -fit  ~/.fvwm/backgrounds/background.jpeg
+#Exec java Clock
+
+
+#Application specific styles.
+Style Fvwm*  Sticky, WindowListSkip, !Title, CirculateSkip, !Handles
+Style FvwmConsole Title, Handles
+Style Vim* Title, Handles
+#Style *xterm* StartsOnPage 0 0 0, SkipMapping
+#Style *Firefox* StartsOnPage 1 0 0, SkipMapping
+
+########################     MENUS     ##############################
+
+
+
+# Program menu (B1)
+DestroyMenu MenuFvwmRoot
+AddToMenu MenuFvwmRoot  "All You Need : xterm!"             Title												"All You Need"			   exec xterm &
++	                "" 	Nop 
++			"All You Need"	Exec xterm
++			""	Nop
++                       "Exit Fvwm" Popup MenuFvwmQuitVerify
+
+DestroyMenu MenuFvwmQuitVerify
+AddToMenu MenuFvwmQuitVerify "Exit All You Need?" Title
++	                "" Nop
++ "Swap Configs" PopUp SwapMenuPopUp
++ ""											 Nop
++ "Log Out" Module FvwmForm FvwmForm-QuitVerify
++ ""                     Nop
++ "Restart All You Need"          Restart fvwm2 -f ~/.fvwm/FVWMConfigs/AllYouNeed/.fvwm2rc
++ ""                     Nop
+
+DestroyMenu "SwapMenuPopUp"
+AddToMenu "SwapMenuPopUp" "Swap Configs" Title
++ FVWMatrix	Restart fvwm -f ~/.fvwm/FVWMConfigs/FVWMatrix/.fvwm2rc
++			""	Nop
++ BorderLess	Restart fvwm -f ~/.fvwm/FVWMConfigs/Borderless/.fvwm2rc
++			""	Nop
++ AllYouNeedAndMore	Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Startrc
++			""	Nop
++ Default	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default/.fvwm2rc
++ Default2	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default2/.fvwm2rc
++ ljing 	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
++ dotfvwm	Restart fvwm -f ~/.fvwm/FVWMConfigs/dotfvwmrc/.fvwm2rc
++ Zaurus	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
+
+######################################################
+
+# Window ops menu (B2)
+# Middle button root menu
+AddToMenu WindowOps "Window Options" Title
++	"Move"		Move
++	"Resize"	Resize
++	"(Un)Stick"	            Stick
++	"Maximize Vertical"	ResizeMove frame keep -16p w0 16p
++	"Maximize Horizonal" ResizeMove frame 100 keep 0 w0
++	"(Un)Grow Horizonally"	Maximize grow 0
++	"(Un)Grow Vertically"	Maximize 0 grow
++	"" Nop
++	"Resize to 800x600"	Resize 800p 600p
++	"Resize to 1024x768"	Resize 1024p 768p
++	"" Nop
++	"Close"	            Delete
+
+############################################################################
+
+# First, the root window.
+Mouse 1         R   A   Menu MenuFvwmRoot Nop
+Mouse 2         R   A   Exec xterm
+Mouse 3         R   A   WindowList Nop
+
+# title bars
+# Leftmost has the pulldown the menu
+Mouse 1         1   A   Menu WindowOps Close
+Mouse 2         1   A   Menu WindowOps
+Mouse 3         1   A   Delete
+
+# Title bar buttons
+# 1 3 5  6 4 2
+# Default button decorations:
+# Left:
+#   1 MwmDecorMenu
+# Right:
+#   2 MwmDecorMax
+#   4 MwmDecorMin
+# Others
+#     MwmDecorShade
+#     MwmDecorLayer
+#     MwmDecorStick
+
+SetEnv MenuButton 1
+SetEnv MaxButton  2
+SetEnv MinButton  4
+
+Mouse 1         $[MaxButton]   A   Maximize
+Mouse 2         $[MaxButton]   A   Maximize 0 100
+Mouse 3         $[MaxButton]   A   Maximize 100 0
+Mouse 1         $[MinButton]   A   Iconify
+
+# Read the decor _before_ the button and pager configs
+# but after the titlebar configs
+#
+# == Menu Styles ==
+#
+# menu style description.
+
+#fg and bg in colorset 7 are text and background colors
+#correspondingly. sh and hi are shaded and highlited
+#colors for '3D', setting them to same color forces 
+#them to look 'flat'
+#
+#PopupDelay gives you some time before the submenu pops up
+#PopupOffset is 0 pixels between menus and 100 stands
+#to avoid menus overlapping.
+#
+#Colorset 8 is for menu item under pointer and has only
+#one color. 
+
+#Colorset 7 fg #5a504e, bg #a7bdba, sh #5a504e, hi #5a504e
+#Colorset 8 fg #d58c41
+MenuStyle * PopupDelayed, PopupDelay 300, PopdownImmediately
+MenuStyle * PopupOffset 0 100
+MenuStyle * SeparatorsLong, TrianglesSolid
+MenuStyle * BorderWidth 2
+MenuStyle * MenuColorset 7
+MenuStyle * ActiveFore, Hilight3DOff
+MenuStyle * ActiveColorset 8
+
+# == Window Decorations ==
+
+#A description of simple pixmap window decoration, although quite a
+# tricky thing indeed
+
+Colorset 5 fg #5a504e, bg #5a504e
+BorderStyle Colorset 5 -- Flat HiddenHandles NoInset 
+TitleStyle AllActive MultiPixmap \
+      Main TiledPixmap $[FVWM_USERDIR]/decor/title-1-active.xpm
+TitleStyle Inactive MultiPixmap \
+      Main TiledPixmap $[FVWM_USERDIR]/decor/title-1-inactive.xpm
+ButtonStyle 1 \
+Active (Pixmap $[FVWM_USERDIR]/decor/close-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/close-inactive.xpm)
+ButtonStyle 2 \
+Active (Pixmap $[FVWM_USERDIR]/decor/maximize-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/maximize-inactive.xpm)
+ButtonStyle 4 \
+Active (Pixmap $[FVWM_USERDIR]/decor/hide-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/hide-inactive.xpm)
+TitleStyle -- Flat 
+TitleStyle LeftJustified Height 15
+ButtonStyle All -- Flat
+HilightColor #d58c41 #DEDEDE
+
+Style "*" BorderWidth 1 
+Style "*" HandleWidth 1
+Style "*" Title, Color #a7bdba/#33322F
+Style "*" DecorateTransient
+# Style "*" NoIcon
+
+############################################################################
+# KEYBOARD Setup
+
+# alt tab to change windows (shows all windows)
+Key Tab A M WindowList Root c c NoDeskSort
+
+# atl tab to change windows (current desk only)
+#Key Tab A M WindowList Root c c CurrentDesk, NoGeometry
+
+
+# Who needs a mouse?
+Key Left        A       SC      CursorMove -1  +0
+Key Right       A       SC      CursorMove +1  +0
+Key Up          A       SC      CursorMove +0  -1
+Key Down        A       SC      CursorMove +0  +1
+
+
+
+# Flip pages
+# Alt-control-<direction> to move a full page
+Key   Left   A   MC  CursorMove -100 +0
+Key   Right  A   MC  CursorMove +100 +0
+Key   Up     A   MC  CursorMove +0  -100
+Key   Down   A   MC  CursorMove +0  +100
+
+# Alt-Fn to go to a specific page (like on the Linux console)
+Key F1 A M GotoPage 0 0
+Key F2 A M GotoPage 1 0
+Key F3 A M GotoPage 0 1
+Key F4 A M GotoPage 1 1
+
+# Short cuts
+# bring up root menu
+Key R		A	M	Popup "MenuFvwmRoot"
+
+#volume controls
+Key M A M Exec $HOME/FVWMConfigs/Shell\ Scripts/Mute.sh
+Key Up A M Exec $HOME/FVWMConfigs/Shell\ Scripts/VolumeUp.sh
+Key Down A M Exec $HOME/FVWMConfigs/Shell\ Scripts/VolumeDown.sh
+
+#Battery status
+Key F12 A C Exec $HOME/FVWMConfigs/Shell\ Scripting/BatteryStatus.sh
+
+#resize window
+Key H   A M Maximize 0 100
+Key V   A M Maximize 100 0

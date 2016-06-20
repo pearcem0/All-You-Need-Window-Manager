@@ -1,0 +1,11 @@
+################################
+# Fvwm Buttons
+
+*FvwmButtonsFore White
+*FvwmButtonsBack Black
+*FvwmButtonsFont -adobe-helvetica-bold-r-*-*-12-*-*-*-*-*-*-*
+*FvwmButtonsGeometry +0-0
+*FvwmButtonsRows 1
+
+*FvwmButtons AllYouNeed xterm-logo.xpm Exec "xterm" xterm &
+

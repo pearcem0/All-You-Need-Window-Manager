@@ -1,0 +1,67 @@
+# AYNForm-Setup - Setup Text for fvwm
+
+DestroyModuleConfig  AYNForm-Setup: *
+*AYNForm-Setup: WarpPointer
+# Layout
+*AYNForm-Setup: Line    center
+*AYNForm-Setup: Text    "$[gt.All You Need - Edit Configuration]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    " "
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: PadVText 0
+*AYNForm-Setup: Text    "$[gt.Use this form to edit your configuration file.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.The file created is ~/.fvwm/.fvwm2rc or $FVWM_USERDIR/.fvwm2rc.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.After creation, the fvwm2rc file can then be changed with any]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.editor to suit your own needs.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  BASIC BASIC on "$[gt.Create a starting .fvwm2rc file]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.These files are optional.  Select the modules you want to customize.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.You can always copy them later.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  BAK BAK off "FvwmBacker   "
+*AYNForm-Setup: Choice  BUT BUT off "FvwmButtons  "
+*AYNForm-Setup: Choice  BOX BOX off "FvwmIconBox  "
+*AYNForm-Setup: Choice  MAN MAN off "FvwmIconMan  "
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  IDN IDN off "FvwmIdent    "
+*AYNForm-Setup: Choice  PAG PAG off "FvwmPager    "
+*AYNForm-Setup: Choice  SCR SCR off "FvwmScroll   "
+*AYNForm-Setup: Choice  TSK TSK off "FvwmTaskBar  "
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  WIN WIN off "FvwmWinList  "
+
+# Buttons
+*AYNForm-Setup: Line    center
+*AYNForm-Setup: Button  quit    "$[gt.Return]" ^M
+*AYNForm-Setup: Command   Nop
+*AYNForm-Setup: Button  continue    "F2 - $[gt.Copy Config File(s)]" F2
+*AYNForm-Setup: Command   $(BASIC?!/bin/cp ~/TextFile ${FVWM_USERDIR}/TestFile)
+*AYNForm-Setup: Command   $(BAK?!/bin/cp /usr/share/fvwm/ConfigFvwmBacker  ${FVWM_USERDIR}) 
+*AYNForm-Setup: Command   $(BUT?!/bin/cp /usr/share/fvwm/ConfigFvwmButtons ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(BOX?!/bin/cp /usr/share/fvwm/ConfigFvwmIconBox ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(MAN?!/bin/cp /usr/share/fvwm/ConfigFvwmIconMan ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(IDN?!/bin/cp /usr/share/fvwm/ConfigFvwmIdent   ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(PAG?!/bin/cp /usr/share/fvwm/ConfigFvwmPager   ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(SCR?!/bin/cp /usr/share/fvwm/ConfigFvwmScroll  ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(TSK?!/bin/cp /usr/share/fvwm/ConfigFvwmTaskBar ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(WIN?!/bin/cp /usr/share/fvwm/ConfigFvwmWinList ${FVWM_USERDIR})
+*AYNForm-Setup: Button  quit    "F3 - $[gt.Restart fvwm]"
+*AYNForm-Setup: Command   Restart
+

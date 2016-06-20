@@ -1,0 +1,68 @@
+# functions
+DestroyFunc FuncFvwmMoveOrRaiseOrShade
+AddToFunc   FuncFvwmMoveOrRaiseOrShade
++ H     Move
++ M     Move
++ C     Raise
++ D     WindowShade $[func.context]
+
+DestroyFunc FuncFvwmResizeOrRaiseOrShade
+AddToFunc   FuncFvwmResizeOrRaiseOrShade
++ H     Resize $0
++ M     Resize $0
++ C     Raise
++ D     WindowShade $[func.context]
+
+DestroyFunc FuncFvwmMoveOrRaiseLower
+AddToFunc   FuncFvwmMoveOrRaiseLower
++ H     Move
++ M     Move
++ C     RaiseLower
+
+DestroyFunc FuncFvwmMoveOrIconify
+AddToFunc   FuncFvwmMoveOrIconify
++ M     Move
++ D     Iconify
+
+DestroyFunc FuncFvwmMaximizeFullScreen
+AddToFunc   FuncFvwmMaximizeFullScreen
++ I Maximize 100 100 
+
+DestroyFunc FuncFvwmWindowOpsOrAction
+AddToFunc   FuncFvwmWindowOpsOrAction
++ I Menu MenuFvwmWindowOps2 $*
+
+DestroyFunc FuncIconifyDeIconify
+AddToFunc   FuncIconifyDeIconify
++ C ThisWindow (!Iconic) Iconify
++ D ThisWindow (Iconic) Iconify
+
+DestroyFunc FuncWindowOpsOrClose
+AddToFunc FuncWindowOpsOrClose
++ H Menu FvwmMenuWindowOps
++ C Menu FvwmMenuWindowOps
++ D Close
+
+
+DestroyFunc AYNOnly
+AddToFunc AYNOnly
+#+ I Exec exec firefox
+#+ I Exec exec xterm
+#+ I Exec exec xsetroot -solid gray66
++ I Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeed/.fvwm2rc
+
+AddToFunc StartFunction
+#test for working out whether FVWM (at the time it reads the StartFunction) is in Init
++ I Test (Init) Module FvwmForm Login
++ I Module FvwmButtons -g 13x80+1268+880 Buttons-Slider
+
+# InitFunction is only executed ONCE, at start up
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Exec exec xsetroot -solid black
++ I Exec exec  xloadimage -center -onroot ~/.fvwm/FVWMConfigs/backgrounds/qrcode.png
+
+# executed when exiting or restarting before actually quitting. It could be 
+# used to explicitly kill modules, etc.
+AddToFunc ExitFunction I Nop
+

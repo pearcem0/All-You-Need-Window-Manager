@@ -1,0 +1,47 @@
+### vim:ft=fvwm:fdm=marker
+###
+### .fvwm/colorsets
+###
+### colorset definitions
+###
+### Frank Terbeck <ft@bewatermyfriend.org>
+### Last-Modified: Wed Sep 23 03:41:45 2009
+###
+### <http://ft.bewatermyfriend.org/comp/fvwm.html>
+###
+
+### reset all colorset definitions
+    CleanupColorsets
+
+### #1 used for menu
+    Colorset   1    fg black, bg gray
+
+### #2 used for highlighted menu entry
+    Colorset   2    fg black, bg #6b83b5, hi #dcdcdc, sh #dcdcdc
+
+### #3 used for windowtitle
+###   bg is for the titletext background (focused an unfocused window)
+###   fg is for the titletext of an unfocused window
+    Colorset   3    fg white, bg gray40
+
+### #4 used for windowhilights
+###   bg is used by my vextor buttons (focused window)
+###   fg is for the titletext of an focused window
+    Colorset   4    fg white, bg gray80
+
+### #12 used for active windowbuttons
+    Colorset   5    bg gray
+
+### #13 used for inactive windowbuttons
+    Colorset   6    bg gray40
+
+### #14 used for active windowborder
+    Colorset   7    bg gray85
+
+### #15 used for inactive windowborder
+    Colorset   8    bg gray40, fg black
+
+### #16 used for FvwmButtons "DeskSwitch" & "Dock"
+    Colorset   9    RootTransparent, Tint black 80, fg gray65
+    Colorset  10    bg black
+

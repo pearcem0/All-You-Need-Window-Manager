@@ -1,0 +1,80 @@
+
+# Fvwm configuration
+# AllYouNeedAndMore
+# Michael Pearce
+
+# determines needed effort to push to next page
+EdgeResistance 800
+# Practically no resistance
+#EdgeResistance scrolling
+
+#Specifies the percentage of a page to scroll when the cursor hits the edge 
+#of a page - in this case whole pages
+EdgeScroll 100 100
+# no scroll
+#EdgeScroll 0 0 
+
+
+###############################
+
+BorderStyle Colorset 5 -- Flat HiddenHandles NoInset 
+TitleStyle AllActive MultiPixmap \
+      Main TiledPixmap $[FVWM_USERDIR]/decor/title-1-active.xpm
+TitleStyle Inactive MultiPixmap \
+      Main TiledPixmap $[FVWM_USERDIR]/decor/title-1-inactive.xpm
+ButtonStyle 1 \
+Active (Pixmap $[FVWM_USERDIR]/decor/close-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/close-inactive.xpm)
+ButtonStyle 2 \
+Active (Pixmap $[FVWM_USERDIR]/decor/maximize-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/maximize-inactive.xpm)
+ButtonStyle 4 \
+Active (Pixmap $[FVWM_USERDIR]/decor/hide-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/hide-inactive.xpm)
+TitleStyle -- Flat 
+TitleStyle LeftJustified Height 15
+ButtonStyle All -- Flat
+HilightColor #d58c41 #DEDEDE
+
+
+########################################################################
+
+IconFont -adobe-helvetica-bold-r-*-*-20-*-*-*-*-*-*-*
+IconTitleRelief -50
+TitleStyle Height 18
+Emulate Fvwm
+DesktopName 0 Main
+EdgeThickness 1
+HideGeometryWindow never
+
+
+
+#################
+ClickTime 310
+
+#####
+# Use 9 pages per desktop, arranged in a square, like this:
+DeskTopSize 3x3
+
+######
+# Use an arrow rather than the `X` cursor on the root window.
+#CursorStyle root top_left_arrow
+
+#####
+# OpaqueMoveSize allows you to stop Large windows from being moved opaquely,
+# SnapAttraction lets nearby windows snap together, or snap to edges so 
+# that they
+# are easier to align 
+
+#OpaqueMoveSize -1
+SnapAttraction 4 SameType
+SnapGrid 1 1
+MoveThreshold 3
+#BugOpts FlickeringMoveWorkAround On
+
+
+
+# Original config ends here.
+############################################################################	
+# From here on is determined by Setup form filled in my user
+

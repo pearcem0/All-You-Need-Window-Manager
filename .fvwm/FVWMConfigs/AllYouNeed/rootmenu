@@ -1,0 +1,31 @@
+# Program menu (B1)
+DestroyMenu MenuFvwmRoot
+AddToMenu MenuFvwmRoot  "All You Need : xterm!"             Title												"All You Need"			   exec xterm &
++	                "" 	Nop 
++			"All You Need"	Exec xterm
++			""	Nop
++                       "Exit Fvwm" Popup MenuFvwmQuitVerify
+
+DestroyMenu MenuFvwmQuitVerify
+AddToMenu MenuFvwmQuitVerify "Exit All You Need?" Title
++	                "" Nop
++ "Swap Configs" PopUp SwapMenuPopUp
++ ""											 Nop
++ "Log Out" Module FvwmForm FvwmForm-QuitVerify
++ ""                     Nop
++ "Restart All You Need"          Restart fvwm2 -f ~/.fvwm/FVWMConfigs/AllYouNeed/.fvwm2rc
++ ""                     Nop
+
+DestroyMenu "SwapMenuPopUp"
+AddToMenu "SwapMenuPopUp" "Swap Configs" Title
++ FVWMatrix	Restart fvwm -f ~/.fvwm/FVWMConfigs/FVWMatrix/.fvwm2rc
++			""	Nop
++ BorderLess	Restart fvwm -f ~/.fvwm/FVWMConfigs/Borderless/.fvwm2rc
++			""	Nop
++ AllYouNeedAndMore	Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Startrc
++			""	Nop
++ Default	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default/.fvwm2rc
++ Default2	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default2/.fvwm2rc
++ ljing 	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
++ dotfvwm	Restart fvwm -f ~/.fvwm/FVWMConfigs/dotfvwmrc/.fvwm2rc
++ Zaurus	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc

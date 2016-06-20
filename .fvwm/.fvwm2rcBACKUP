@@ -1,0 +1,569 @@
+
+# Fvwm configuration
+# AllYouNeedAndMore
+# Michael Pearce
+
+# determines needed effort to push to next page
+EdgeResistance 800
+# Practically no resistance
+#EdgeResistance scrolling
+
+#Specifies the percentage of a page to scroll when the cursor hits the edge 
+#of a page - in this case whole pages
+EdgeScroll 100 100
+# no scroll
+#EdgeScroll 0 0 
+
+
+###############################
+
+BorderStyle Colorset 5 -- Flat HiddenHandles NoInset 
+TitleStyle AllActive MultiPixmap \
+      Main TiledPixmap $[FVWM_USERDIR]/decor/title-1-active.xpm
+TitleStyle Inactive MultiPixmap \
+      Main TiledPixmap $[FVWM_USERDIR]/decor/title-1-inactive.xpm
+ButtonStyle 1 \
+Active (Pixmap $[FVWM_USERDIR]/decor/close-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/close-inactive.xpm)
+ButtonStyle 2 \
+Active (Pixmap $[FVWM_USERDIR]/decor/maximize-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/maximize-inactive.xpm)
+ButtonStyle 4 \
+Active (Pixmap $[FVWM_USERDIR]/decor/hide-active.xpm)\
+Inactive (Pixmap $[FVWM_USERDIR]/decor/hide-inactive.xpm)
+TitleStyle -- Flat 
+TitleStyle LeftJustified Height 15
+ButtonStyle All -- Flat
+HilightColor #d58c41 #DEDEDE
+
+
+########################################################################
+
+IconFont -adobe-helvetica-bold-r-*-*-20-*-*-*-*-*-*-*
+IconTitleRelief -50
+TitleStyle Height 18
+Emulate Fvwm
+DesktopName 0 Main
+EdgeThickness 1
+HideGeometryWindow never
+
+
+
+#################
+ClickTime 310
+
+#####
+# Use 9 pages per desktop, arranged in a square, like this:
+DeskTopSize 3x3
+
+######
+# Use an arrow rather than the `X` cursor on the root window.
+#CursorStyle root top_left_arrow
+
+#####
+# OpaqueMoveSize allows you to stop Large windows from being moved opaquely,
+# SnapAttraction lets nearby windows snap together, or snap to edges so 
+# that they
+# are easier to align 
+
+#OpaqueMoveSize -1
+SnapAttraction 4 SameType
+SnapGrid 1 1
+MoveThreshold 3
+#BugOpts FlickeringMoveWorkAround On
+
+
+
+# Original config ends here.
+############################################################################	
+# From here on is determined by Setup form filled in my user
+
+DestroyMenu "FvwmMenuRoot"
+AddToMenu "FvwmMenuRoot" "All You Need" Title
++ MissingSubmenuFunction Beep
++ "&Shells" Popup FvwmMenuShellsPopup
++ "&Editors" Popup FvwmMenuEditorsPopup
++ "&Internet" Popup FvwmMenuInternetPopup
++ "&Drawing" Popup FvwmMenuDrawingPopup
++ "Musi&c" Popup FvwmMenuMusicPopup
++ "Utilities" Popup FvwmMenuUtilitiesPopup
++ "" Nop
++ "Forms" Popup MenuFvwmForms
++ "E&xit Fvwm" Popup FvwmExitFvwmPopup
+
+DestroyMenu MenuFvwmForms
+AddToMenu MenuFvwmForms
++ "&C. Capture"       Module FvwmForm FvwmForm-Capture
++ "&D. Form Defaults" Module FvwmForm FvwmForm-Form
++ "&R. Rlogin"        Module FvwmForm FvwmForm-Rlogin
++ "&P. RootCursor"    Module FvwmForm FvwmForm-RootCursor
++ "&S. Setup"         Module FvwmForm AYNForm-Setup
+
+DestroyMenu "FvwmMenuMusicPopup"
+AddToMenu "FvwmMenuMusicPopup" "Music" Title
++ "Totem" Exec exec totem
++ "RhythmBox" Exec exec rhythmbox
+
+
+DestroyMenu "FvwmMenuShellsPopup" 
+AddToMenu "FvwmMenuShellsPopup" "Shells" Title
++ "&xterm (normal)" Exec exec xterm -ls
++ "x&term (black)"  Exec exec xterm -ls -bg black -fg white
++ "&eterm"	    Exec exec Eterm  --trans
++ "&rxvt" 	    Exec exec rxvt 
++ "" Nop
+
+
+DestroyMenu "FvwmMenuDrawingPopup"
+AddTomenu "FvwmMenuDrawingPopup"
++ "&Gimp" Exec exec gimp
++ "&xpaint" Exec exec xpaint
+
+
+DestroyMenu "FvwmMenuEditorsPopup"
+AddToMenu "FvwmMenuEditorsPopup"
++ MissingSubmenuFunction Beep
++ "&Console" Popup FvwmSubEditorsConsole
++ "&Office" Popup FvwmSubEditorsOffice
+
+DestroyMenu "FvwmSubEditorsConsole"
+AddToMenu "FvwmSubEditorsConsole" "Editors - Console" Title
++ MissingSubmenuFunction Beep
++ "&vi" Exec exec xterm -bg white -fg black -e vim 
+
+DestroyMenu "FvwmSubEditorsOffice"
+AddToMenu "FvwmSubEditorsOffice" "Office" Title
++ MissingSubMenuFunction Beep
++ "&OpenOffice" Popup FvwmMenuOOSubMenu
+
+
+DestroyMenu "FvwmMenuOOSubMenu"
+AddToMenu "FvwmMenuOOSubMenu" "OpenOffice" Title
++ "&OpenOffice" Exec exec openoffice
++ "" Nop
++ "&Writer" Exec exec oowriter
++ "&Spreadsheet" Exec exec oocalc
++ "&Impress"   Exec exec ooimpress
+
+DestroyMenu "FvwmMenuInternetPopup"
+AddToMenu "FvwmMenuInternetPopup"
++ "&Browsers" Popup FvwmSubInternetBrowsers
++ "&Communication" Popup FvwmSubInternetCommunication
+
+
+DestroyMenu "FvwmSubInternetBrowsers"
+AddToMenu "FvwmSubInternetBrowsers" "Console Browsers" Title
++ "l&ynx" Exec exec xterm lynx
++ "X11 Browsers" Title
++ "&Firefox"  Exec exec firefox
++ "&Chromium" Exec exec chromium-browser
++ "&Opera" Exec exec opera
+
+DestroyMenu "FVWMSubInternetCommunication"
+AddToMenu "FVWMSubInternetCommunication" "Communication" Title
++ "&Mail" Popup FVWMSubInternetMail
++ "&Skype" Exec exec skype
+
+DestroyMenu "FvwmSubInternetMail"
+AddToMenu "FvwmSubInternetMail" "Console Mail Clients" Title 
++ "&mutt" Function FvwmTitleRxvt -e 'mutt'
++ "&cone" Function FvwmTitleRxvt -e 'cone'
++ "X11 Mail Clients" Title
++ "&Thunderbird" Exec exec  thunderbird 
+
+DestroyMenu "FvwmMenuUtilitiesPopup"
+AddtoMenu "FvwmMenuUtilitiesPopup" "Utilities" title
++ "Wifi(auto)" Exec exec nm-applet
++ "xClock" Popup MenuxClock
++ "&xlock" Exec exec xlock -mode anemone -timeelapsed 
+
+
+DestroyMenu "MenuxClock"
+AddToMenu "MenuxClock" "MenuxClock" title
++ "On" Exec exec xclock -digital -update 1
++ "Off" killall xclock
+
+
+DestroyMenu "FvwmExitFvwmPopup"
+AddToMenu FvwmExitFvwmPopup "Exit Fvwm?" Title
++ "&Swap Configs" PopUp SwapMenuPopUp
++ "&Restart" Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Startrc
++ "&Quit"      Module FvwmForm FvwmForm-QuitVerify
+
+DestroyMenu "SwapMenuPopUp"
+AddToMenu "SwapMenuPopUp" "Swap Configs" Title
++ FVWMatrix	Restart fvwm -f ~/.fvwm/FVWMConfigs/FVWMatrix/.fvwm2rc
++ Borderless	Restart fvwm -f ~/.fvwm/FVWMConfigs/Borderless/.fvwm2rc
++ AllYouNeed	Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeed/.fvwm2rc
++ Default	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default/.fvwm2rc
++ Default2	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default2/.fvwm2rc
++ ljing	        Restart fvwm -f ~/.fvwm/FVWMConfigs/ljing/.fvwm2rc
++ dotfvwm	Restart fvwm -f ~/.fvwm/FVWMConfigs/dotfvwmrc/.fvwm2rc
++ Zaurus	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
+
+#######################
+AddToFunc    FuncFvwmMenuColorset
++ I DestroyMenu recreate FvwmMenuColorset
++ I PipeRead 'echo "AddToMenu FvwmMenuColorset \
+Colorsets Title"'
++ I PipeRead 'echo \+ \\"Reset\\" Function ChangeStyle \
+"1 fg white, bg #c06077";  echo \\+ \\"\\" Nop'
++ I PipeRead 'while read l; do echo +\"${l/*bg /\ }\" Function \
+ChangeStyle "$l"; done < ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Colorset'
+
+DestroyFunc ChangeStyle
+AddToFunc   ChangeStyle
++ I ColorSet $*
++ I Style * HilightColorSet $*
++ I SetEnv DefCS "$0 $*"
++ I UpdateStyles
+
+# Default styles common to all windows created
+
+# style options 
+Style "*" BorderWidth 1 
+Style "*" HandleWidth 1
+Style "*" Title, Color #a7bdba/#33322F
+Style "*" DecorateTransient
+# Style "*" NoIcon
+
+Style * SloppyFocus, FPLenient, FPOverrideGrabFocus, !FPGrabFocus, !FPGrabFocusTransient
+Style * TileCascadePlacement, EWMHPlacementUseWorkingArea
+Style * DecorateTransient
+Style * MwmDecor, EWMHUseStackingOrderHints
+Style * BorderColorset 3, HilightBorderColorset 4 
+Style * SnapAttraction 12
+Style * EdgeMoveResistance 12
+Style * IconSize 48 48
+Style * IconBox 256x480-0+220@c, IconFill t r
+Style tint2 StaysOnTop, NeverFocus
+Style Conky NeverFocus
+
+#Application specific styles.
+Style Fvwm*  Sticky, WindowListSkip, !Title, CirculateSkip, !Handles
+Style FvwmConsole Title, Handles
+Style Vim* Title, Handles
+#Style *xterm* StartsOnPage 0 0 0, SkipMapping
+#Style *Firefox* StartsOnPage 1 0 0, SkipMapping
+
+# AddToDecor allows for things like vector buttons to be defined.
+AddToDecor   fDecor
++ BorderStyle Simple
++ TitleStyle  -- Raised
++ ButtonStyle All -- Raised
++ AddButtonStyle 1 Vector 5 25x40@1 25x60@1 75x60@0 75x40@0 25x40@1
++ AddButtonStyle 2 Vector 4 50x25@1 75x75@0 25x75@0 50x25@1
++ AddButtonStyle 4 Vector 4 50x75@1 25x25@1 75x25@1 50x75@0
++ ButtonStyle 1 - Clear MWMDecorMenu
++ ButtonStyle 2 - Clear MWMDecorMax
++ ButtonStyle 4 - Clear MWMDecorMin
+
+# Menu styles...
+MenuStyle MWM
+MenuStyle * Font  -adobe-helvetica-bold-r-*-*-12-*-*-*-*-*-*-*
+
+DestroyMenu "FvwmMenuWindowOps"
+AddToMenu "FvwmMenuWindowOps" "WindowOps" Title
++              "&Move" Pick Move 
++              "&Resize" Pick Resize 
++              "(De)&Iconify" Iconify
++              "(Un)&Stick" Stick
++              "(Un)Ma&ximize" Function FuncFvwmMaximizeFullScreen
++              "" Nop
++              "D&estroy" Destroy
+
+
+Style FvwmButtons !Title, !Handles, CirculateSkip, NeverFocus, Sticky, \
+      WindowListSkip
+      
+# functions
+DestroyFunc FuncFvwmMoveOrRaiseOrShade
+AddToFunc   FuncFvwmMoveOrRaiseOrShade
++ H     Move
++ M     Move
++ C     Raise
++ D     WindowShade $[func.context]
+
+DestroyFunc FuncFvwmResizeOrRaiseOrShade
+AddToFunc   FuncFvwmResizeOrRaiseOrShade
++ H     Resize $0
++ M     Resize $0
++ C     Raise
++ D     WindowShade $[func.context]
+
+DestroyFunc FuncFvwmMoveOrRaiseLower
+AddToFunc   FuncFvwmMoveOrRaiseLower
++ H     Move
++ M     Move
++ C     RaiseLower
+
+DestroyFunc FuncFvwmMoveOrIconify
+AddToFunc   FuncFvwmMoveOrIconify
++ M     Move
++ D     Iconify
+
+DestroyFunc FuncFvwmMaximizeFullScreen
+AddToFunc   FuncFvwmMaximizeFullScreen
++ I Maximize 100 100 
+
+DestroyFunc FuncFvwmWindowOpsOrAction
+AddToFunc   FuncFvwmWindowOpsOrAction
++ I Menu MenuFvwmWindowOps2 $*
+
+DestroyFunc FuncIconifyDeIconify
+AddToFunc   FuncIconifyDeIconify
++ C ThisWindow (!Iconic) Iconify
++ D ThisWindow (Iconic) Iconify
+
+DestroyFunc FuncWindowOpsOrClose
+AddToFunc FuncWindowOpsOrClose
++ H Menu FvwmMenuWindowOps
++ C Menu FvwmMenuWindowOps
++ D Close
+
+
+DestroyFunc AYNOnly
+AddToFunc AYNOnly
+#+ I Exec exec firefox
+#+ I Exec exec xterm
+#+ I Exec exec xsetroot -solid gray66
++ I Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeed/.fvwm2rc
+
+AddToFunc StartFunction
+#test for working out whether FVWM (at the time it reads the StartFunction) is in Init
++ I Test (Init) Module FvwmForm Login
++ I Module FvwmButtons -g 13x80+1268+880 Buttons-Slider
+
+# InitFunction is only executed ONCE, at start up
+DestroyFunc InitFunction
+AddToFunc InitFunction
++ I Exec exec xsetroot -solid black
++ I Exec exec  xloadimage -center -onroot ~/.fvwm/FVWMConfigs/backgrounds/qrcode.png
+
+# executed when exiting or restarting before actually quitting. It could be 
+# used to explicitly kill modules, etc.
+AddToFunc ExitFunction I Nop
+
+# Set the main colorset
+# 0 = Default colors
+# 1 = Inactive windows
+# 2 = Active windows
+# 3 = Inactive menu entry and menu background
+# 4 = Active menu entry
+# 5 = greyed out menu entry (only bg used)
+# 6 = module foreground and background
+# 7 = hilight colors
+Colorset 0 fg black, bg #60a0c0
+Colorset 1 fg white, bg #c06077
+Colorset 2 fg white, bg rgb:00/50/00, Plain, NoShape
+Colorset 3 fg black, bg darkgreen
+Colorset 4 fg black, bg rgb:EF/D2/79, Plain, NoShape
+Colorset 5 fg black, bg black, Plain, NoShape
+
+################################
+# Fvwm Buttons
+
+*FvwmButtonsFore White
+*FvwmButtonsBack Black
+*FvwmButtonsFont -adobe-helvetica-bold-r-*-*-12-*-*-*-*-*-*-*
+*FvwmButtonsGeometry +0-0
+*FvwmButtonsRows 1
+
+*FvwmButtons AllYouNeed xterm-logo.xpm Exec "xterm" xterm &
+
+# Mouse and Key Bindings
+
+# Mouse bindings  ---------------------------------------------------------------------------
+# Contexts:
+#     R = Root Window                 rrrrrrrrrrrrrrrrrrrrrr
+#     W = Application Window          rIrrrrFSSSSSSSSSFrrrrr
+#     F = Frame Corners               rrrrrrS13TTTT642Srrrrr
+#     S = Frame Sides                 rIrrrrSwwwwwwwwwSrrrrr
+#     T = Title Bar                   rrrrrrSwwwwwwwwwSrrrrr
+#     I = Icon                        rIrrrrFSSSSSSSSSFrrrrr
+#                                     rrrrrrrrrrrrrrrrrrrrrr
+# Numbers are buttons: 1 3 5 7 9   0 8 6 4 2
+#
+# Modifiers: (A)ny, (C)ontrol, (S)hift, (M)eta, (N)othing
+# ---------------------------------------------------------------------------
+
+
+# click in the root menu
+Mouse 1         R       A       Menu FvwmMenuRoot
+Mouse 3 	R       A       WindowList
+
+Mouse 1         SFT     A       FuncFvwmMoveOrRaiseOrShade
+Mouse 1         SF      A       FuncFvwmResizeOrRaiseOrShade Maximize
+Mouse 1		I	A	FuncIconifyDeIconify
+Mouse 3		I	A	Menu FvwmMenuWindowOps
+Mouse 3		FS	A	Menu FvwmMenuWindowOps
+
+Mouse 0		1	A	FuncWindowOpsOrClose
+Mouse 0		4	A	FuncIconifyDeIconify
+Mouse 0		2	A	FuncFvwmMaximizeFullScreen
+
+# Now some keyboard shortcuts.
+
+# find the mouse!
+#Key Super_L A A Exec xmessage -name "MouseFinder" -bg red \
+  # -fg white -nearmouse -timeout 1 'I am here!'
+  # Style MouseFinder UsePPosition, NoTitle, NoHandles, BorderWidth 10
+
+
+# Arrow Keys
+# press arrow + control anywhere, and scroll by 1 page
+Alt + Control + Arrow
+# Now using the 'PageScroll' function
+Key Left	A	CM	Scroll -100 0
+Key Right	A	CM	Scroll +100 +0
+Key Up		A	CM	Scroll +0 -100
+Key Down	A	CM	Scroll +0 +100
+
+########## Windows key test (4 is windows key) ##################
+Key x  A 4 Exec xterm 
+# Menu styles...
+
+# Maximize
+Key Up A 4 Maximize
+
+# Minimize (Iconify)
+Key Down A 4 Iconify
+
+# Emulate windows window splitting
+Key Left A 4 Maximize 50 100
+#Key Right A 4 Maximize 80 100 Geometry +100-0
+
+##############################################
+############################################################################
+# KEYBOARD Setup
+#
+# press shift arrow + control anywhere, and move the pointer by 1% of a page - Who needs a mouse!?
+Key Left	A	SC	CursorMove -1  +0
+Key Right	A	SC	CursorMove +1  +0
+Key Up		A	SC	CursorMove +0  -1
+Key Down	A	SC	CursorMove +0  +1
+
+# press shift arrow + meta(alt) key, and move the pointer by 1/10 of a page
+Key Left	A	SM	CursorMove -10  +0
+Key Right	A	SM	CursorMove +10  +0
+Key Up		A	SM	CursorMove +0  -10
+Key Down	A	SM	CursorMove +0  +10
+
+# Keyboard accelerators
+Key R		A	M	Popup "FvwmMenuRoot"
+#Key F2	A	C	Popup "Window-Ops"
+#Key I		A	C	Iconify
+Key M		A	C	Move
+#Key R		A	C	Restart
+Key H   A M Maximize 0 100
+Key V   A M Maximize 100 0
+Key R A SC Resize
+Key Right		A	C	Next [*] focus
+Key Left		A	C	Prev [*] focus
+
+#volume controls
+Key M A M Exec ~/.fvwm/FVWMConfigs/Shell\ Scripts/Mute.sh
+Key Up A M Exec ~/.fvwm/FVWMConfigs/Shell\ Scripts/VolumeUp.sh
+Key Down A M Exec ~/.fvwm/FVWMConfigs/Shell\ Scripts/VolumeDown.sh
+
+#Battery status
+Key F12 A C Exec ~/.fvwm/FVWMConfigs/Shell\ Scripting/BatteryStatus.sh
+
+# make a setup
+Key s A M  Module FvwmForm FvwmForm-Setup
+
+### custom login form
+# This option makes FvwmForm grab the mouse pointer on startup. This feature 
+# is useful for things like logout verification. 
+*LoginGrabServer
+# This option makes FvwmForm warp the mouse pointer into its window on 
+# startup. It saves the user some mouse-travelling. 
+#*LoginFont         *helvetica*m*r*n*14*
+#*LoginButtonFont   *helvetica*m*o*n*14*
+#*LoginInputFont    *cour*m*r*n*14*
+#*LoginFore         White
+#Bisque
+#*LoginBack         Gray60
+#*LoginItemFore     Bisque
+#*LoginItemBack     Gray50
+
+# begin items
+*LoginLine         center
+*LoginText         "Choose your window manager!"
+*LoginLine         center
+*LoginButton	   quit " AllYouNeed" ^M
+*LoginCommand 	   AYNOnly
+*LoginLine         center
+*LoginButton       quit " AllYouNeed(And More!)" ^[
+
+
+Style "Login" !Title, !Handles, BorderWidth 10
+
+### custom config form
+# AYNForm-Setup - Setup Text for fvwm
+
+DestroyModuleConfig  AYNForm-Setup: *
+*AYNForm-Setup: WarpPointer
+# Layout
+*AYNForm-Setup: Line    center
+*AYNForm-Setup: Text    "$[gt.All You Need - Edit Configuration]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    " "
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: PadVText 0
+*AYNForm-Setup: Text    "$[gt.Use this form to edit your configuration file.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.The file created is ~/.fvwm/.fvwm2rc or $FVWM_USERDIR/.fvwm2rc.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.After creation, the fvwm2rc file can then be changed with any]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.editor to suit your own needs.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  BASIC BASIC on "$[gt.Create a starting .fvwm2rc file]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.These files are optional.  Select the modules you want to customize.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    "$[gt.You can always copy them later.]"
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Text    ""
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  BAK BAK off "FvwmBacker   "
+*AYNForm-Setup: Choice  BUT BUT off "FvwmButtons  "
+*AYNForm-Setup: Choice  BOX BOX off "FvwmIconBox  "
+*AYNForm-Setup: Choice  MAN MAN off "FvwmIconMan  "
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  IDN IDN off "FvwmIdent    "
+*AYNForm-Setup: Choice  PAG PAG off "FvwmPager    "
+*AYNForm-Setup: Choice  SCR SCR off "FvwmScroll   "
+*AYNForm-Setup: Choice  TSK TSK off "FvwmTaskBar  "
+*AYNForm-Setup: Line    left
+*AYNForm-Setup: Selection meth multiple
+*AYNForm-Setup: Choice  WIN WIN off "FvwmWinList  "
+
+# Buttons
+*AYNForm-Setup: Line    center
+*AYNForm-Setup: Button  quit    "$[gt.Return]" ^M
+*AYNForm-Setup: Command   Nop
+*AYNForm-Setup: Button  continue    "F2 - $[gt.Copy Config File(s)]" F2
+*AYNForm-Setup: Command   $(BASIC?!/bin/cp ~/TextFile ${FVWM_USERDIR}/TestFile)
+*AYNForm-Setup: Command   $(BAK?!/bin/cp /usr/share/fvwm/ConfigFvwmBacker  ${FVWM_USERDIR}) 
+*AYNForm-Setup: Command   $(BUT?!/bin/cp /usr/share/fvwm/ConfigFvwmButtons ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(BOX?!/bin/cp /usr/share/fvwm/ConfigFvwmIconBox ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(MAN?!/bin/cp /usr/share/fvwm/ConfigFvwmIconMan ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(IDN?!/bin/cp /usr/share/fvwm/ConfigFvwmIdent   ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(PAG?!/bin/cp /usr/share/fvwm/ConfigFvwmPager   ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(SCR?!/bin/cp /usr/share/fvwm/ConfigFvwmScroll  ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(TSK?!/bin/cp /usr/share/fvwm/ConfigFvwmTaskBar ${FVWM_USERDIR})
+*AYNForm-Setup: Command   $(WIN?!/bin/cp /usr/share/fvwm/ConfigFvwmWinList ${FVWM_USERDIR})
+*AYNForm-Setup: Button  quit    "F3 - $[gt.Restart fvwm]"
+*AYNForm-Setup: Command   Restart
+

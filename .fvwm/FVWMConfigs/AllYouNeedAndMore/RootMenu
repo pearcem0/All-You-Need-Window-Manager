@@ -1,0 +1,140 @@
+DestroyMenu "FvwmMenuRoot"
+AddToMenu "FvwmMenuRoot" "All You Need" Title
++ MissingSubmenuFunction Beep
++ "&Shells" Popup FvwmMenuShellsPopup
++ "&Editors" Popup FvwmMenuEditorsPopup
++ "&Internet" Popup FvwmMenuInternetPopup
++ "&Drawing" Popup FvwmMenuDrawingPopup
++ "Musi&c" Popup FvwmMenuMusicPopup
++ "Utilities" Popup FvwmMenuUtilitiesPopup
++ "" Nop
++ "Forms" Popup MenuFvwmForms
++ "E&xit Fvwm" Popup FvwmExitFvwmPopup
+
+DestroyMenu MenuFvwmForms
+AddToMenu MenuFvwmForms
++ "&C. Capture"       Module FvwmForm FvwmForm-Capture
++ "&D. Form Defaults" Module FvwmForm FvwmForm-Form
++ "&R. Rlogin"        Module FvwmForm FvwmForm-Rlogin
++ "&P. RootCursor"    Module FvwmForm FvwmForm-RootCursor
++ "&S. Setup"         Module FvwmForm AYNForm-Setup
+
+DestroyMenu "FvwmMenuMusicPopup"
+AddToMenu "FvwmMenuMusicPopup" "Music" Title
++ "Totem" Exec exec totem
++ "RhythmBox" Exec exec rhythmbox
+
+
+DestroyMenu "FvwmMenuShellsPopup" 
+AddToMenu "FvwmMenuShellsPopup" "Shells" Title
++ "&xterm (normal)" Exec exec xterm -ls
++ "x&term (black)"  Exec exec xterm -ls -bg black -fg white
++ "&eterm"	    Exec exec Eterm  --trans
++ "&rxvt" 	    Exec exec rxvt 
++ "" Nop
+
+
+DestroyMenu "FvwmMenuDrawingPopup"
+AddTomenu "FvwmMenuDrawingPopup"
++ "&Gimp" Exec exec gimp
++ "&xpaint" Exec exec xpaint
+
+
+DestroyMenu "FvwmMenuEditorsPopup"
+AddToMenu "FvwmMenuEditorsPopup"
++ MissingSubmenuFunction Beep
++ "&Console" Popup FvwmSubEditorsConsole
++ "&Office" Popup FvwmSubEditorsOffice
+
+DestroyMenu "FvwmSubEditorsConsole"
+AddToMenu "FvwmSubEditorsConsole" "Editors - Console" Title
++ MissingSubmenuFunction Beep
++ "&vi" Exec exec xterm -bg white -fg black -e vim 
+
+DestroyMenu "FvwmSubEditorsOffice"
+AddToMenu "FvwmSubEditorsOffice" "Office" Title
++ MissingSubMenuFunction Beep
++ "&OpenOffice" Popup FvwmMenuOOSubMenu
+
+
+DestroyMenu "FvwmMenuOOSubMenu"
+AddToMenu "FvwmMenuOOSubMenu" "OpenOffice" Title
++ "&OpenOffice" Exec exec openoffice
++ "" Nop
++ "&Writer" Exec exec oowriter
++ "&Spreadsheet" Exec exec oocalc
++ "&Impress"   Exec exec ooimpress
+
+DestroyMenu "FvwmMenuInternetPopup"
+AddToMenu "FvwmMenuInternetPopup"
++ "&Browsers" Popup FvwmSubInternetBrowsers
++ "&Communication" Popup FvwmSubInternetCommunication
+
+
+DestroyMenu "FvwmSubInternetBrowsers"
+AddToMenu "FvwmSubInternetBrowsers" "Console Browsers" Title
++ "l&ynx" Exec exec xterm lynx
++ "X11 Browsers" Title
++ "&Firefox"  Exec exec firefox
++ "&Chromium" Exec exec chromium-browser
++ "&Opera" Exec exec opera
+
+DestroyMenu "FVWMSubInternetCommunication"
+AddToMenu "FVWMSubInternetCommunication" "Communication" Title
++ "&Mail" Popup FVWMSubInternetMail
++ "&Skype" Exec exec skype
+
+DestroyMenu "FvwmSubInternetMail"
+AddToMenu "FvwmSubInternetMail" "Console Mail Clients" Title 
++ "&mutt" Function FvwmTitleRxvt -e 'mutt'
++ "&cone" Function FvwmTitleRxvt -e 'cone'
++ "X11 Mail Clients" Title
++ "&Thunderbird" Exec exec  thunderbird 
+
+DestroyMenu "FvwmMenuUtilitiesPopup"
+AddtoMenu "FvwmMenuUtilitiesPopup" "Utilities" title
++ "Wifi(auto)" Exec exec nm-applet
++ "xClock" Popup MenuxClock
++ "&xlock" Exec exec xlock -mode anemone -timeelapsed 
+
+
+DestroyMenu "MenuxClock"
+AddToMenu "MenuxClock" "MenuxClock" title
++ "On" Exec exec xclock -digital -update 1
++ "Off" killall xclock
+
+
+DestroyMenu "FvwmExitFvwmPopup"
+AddToMenu FvwmExitFvwmPopup "Exit Fvwm?" Title
++ "&Swap Configs" PopUp SwapMenuPopUp
++ "&Restart" Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Startrc
++ "&Quit"      Module FvwmForm FvwmForm-QuitVerify
+
+DestroyMenu "SwapMenuPopUp"
+AddToMenu "SwapMenuPopUp" "Swap Configs" Title
++ FVWMatrix	Restart fvwm -f ~/.fvwm/FVWMConfigs/FVWMatrix/.fvwm2rc
++ Borderless	Restart fvwm -f ~/.fvwm/FVWMConfigs/Borderless/.fvwm2rc
++ AllYouNeed	Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeed/.fvwm2rc
++ Default	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default/.fvwm2rc
++ Default2	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default2/.fvwm2rc
++ ljing	        Restart fvwm -f ~/.fvwm/FVWMConfigs/ljing/.fvwm2rc
++ dotfvwm	Restart fvwm -f ~/.fvwm/FVWMConfigs/dotfvwmrc/.fvwm2rc
++ Zaurus	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
+
+#######################
+AddToFunc    FuncFvwmMenuColorset
++ I DestroyMenu recreate FvwmMenuColorset
++ I PipeRead 'echo "AddToMenu FvwmMenuColorset \
+Colorsets Title"'
++ I PipeRead 'echo \+ \\"Reset\\" Function ChangeStyle \
+"1 fg white, bg #c06077";  echo \\+ \\"\\" Nop'
++ I PipeRead 'while read l; do echo +\"${l/*bg /\ }\" Function \
+ChangeStyle "$l"; done < ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Colorset'
+
+DestroyFunc ChangeStyle
+AddToFunc   ChangeStyle
++ I ColorSet $*
++ I Style * HilightColorSet $*
++ I SetEnv DefCS "$0 $*"
++ I UpdateStyles
+

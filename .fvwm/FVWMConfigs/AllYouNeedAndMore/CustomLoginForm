@@ -1,0 +1,26 @@
+# This option makes FvwmForm grab the mouse pointer on startup. This feature 
+# is useful for things like logout verification. 
+*LoginGrabServer
+# This option makes FvwmForm warp the mouse pointer into its window on 
+# startup. It saves the user some mouse-travelling. 
+#*LoginFont         *helvetica*m*r*n*14*
+#*LoginButtonFont   *helvetica*m*o*n*14*
+#*LoginInputFont    *cour*m*r*n*14*
+#*LoginFore         White
+#Bisque
+#*LoginBack         Gray60
+#*LoginItemFore     Bisque
+#*LoginItemBack     Gray50
+
+# begin items
+*LoginLine         center
+*LoginText         "Choose your window manager!"
+*LoginLine         center
+*LoginButton	   quit " AllYouNeed" ^M
+*LoginCommand 	   AYNOnly
+*LoginLine         center
+*LoginButton       quit " AllYouNeed(And More!)" ^[
+
+
+Style "Login" !Title, !Handles, BorderWidth 10
+

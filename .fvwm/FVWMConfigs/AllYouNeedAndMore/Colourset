@@ -1,0 +1,16 @@
+# Set the main colorset
+# 0 = Default colors
+# 1 = Inactive windows
+# 2 = Active windows
+# 3 = Inactive menu entry and menu background
+# 4 = Active menu entry
+# 5 = greyed out menu entry (only bg used)
+# 6 = module foreground and background
+# 7 = hilight colors
+Colorset 0 fg black, bg #60a0c0
+Colorset 1 fg white, bg #c06077
+Colorset 2 fg white, bg rgb:00/50/00, Plain, NoShape
+Colorset 3 fg black, bg darkgreen
+Colorset 4 fg black, bg rgb:EF/D2/79, Plain, NoShape
+Colorset 5 fg black, bg black, Plain, NoShape
+

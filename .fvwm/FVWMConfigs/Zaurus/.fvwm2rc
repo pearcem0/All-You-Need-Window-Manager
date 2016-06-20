@@ -1,0 +1,522 @@
+# FVWM2 config. F1-5 assignments down below...
+#________________________________________________________________________#
+
+# Fonts - one for window titles, another for icons, and another for the menus
+WindowFont	-adobe-helvetica-bold-r-*-*-12-*-*-*-*-*-*-*
+IconFont	fixed
+#MenuFont   	-adobe-helvetica-medium-r-*-*-*-120-*-*-*-*-*-*
+
+#  DefaultColors winforecolor winbackcolor titleforecolor titlebackcolor
+# where:
+#  winbackcolor    is the background (border) color of all windows,
+#                  including the menu windows 
+#  winforecolor    is used for the menu text
+#  titlebackcolor  is the background color used for title bars of 
+#                  non selected windows
+#  titleforecolor  is the color of the title text of non selected windows
+DefaultColors  White Grey Grey Orange 
+
+# Text and background color for the title bar of the active (selected) window
+HilightColor Black Grey
+
+# Text and background color for the title bar of sticky windows
+
+# You can also use the Style command to set the colors of individual
+# title bars of some non-selected windows
+MenuStyle Black Grey Black -*-helvetica-bold-r-*-*-12-*-*-*-*-*-koi8-r fvwm
+
+#________________________________________________________________________#
+# CURSOR OPTIONS
+CursorStyle root top_left_arrow
+CursorStyle stroke hand2
+
+#________________________________________________________________________#
+# GLOBAL STYLE OPTIONS
+
+Style "*" ForeColor Black
+Style "*" BackColor Grey
+
+Style "*" ClickToFocus
+# Comment the above and uncomment one of the following if you prefer
+# focus follow mouse.
+#Style "*" MouseFocus
+#Style "*" SloppyFocus
+
+# If we use the FvwmTaskBar we don't need the icons :-)
+# Style "..." Icon are also commented below.
+Style "*" NoIcon
+Style "*" MWMFunctions
+Style "*" HintOverride
+Style "*" MWMDecor
+Style "*" DecorateTransient
+
+OpaqueMoveSize 100
+EdgeScroll 100 100
+EdgeResistance 10000 0
+
+# RandomPlacement prevents user interaction while placing windows:
+Style "*" RandomPlacement
+
+# NoPPosition instructs fvwm to ignore the PPosition field in window 
+# geometry hints. Emacs annoyingly sets PPosition to (0,0)!
+Style "*" NoPPosition
+
+#________________________________________________________________________#
+# VIRTUAL DESKTOP SIZE
+DeskTopSize 4x1
+
+#________________________________________________________________________#
+
+# Module path and paths to the icons
+# ModulePath is a colon-separated list, just like regular unix PATH
+#
+#ModulePath /usr/X11R6/lib/X11/fvwm2
+#PixmapPath /usr/include/X11/pixmaps/:/usr/share/icons/mini/
+#IconPath   /usr/include/X11/bitmaps/:/usr/share/icons/
+
+#________________________________________________________________________#
+# MAIN STYLES
+# Set the decoration styles and window options
+# If compatible styles are set for a single window in multiple Style
+# commands, then the styles are ORed together. If conflicting styles
+# are set, the last one specified is used.
+
+# These commands should command before any menus or functions are defined,
+# and before the internal pager is started.
+
+# Default border and handle widths
+Style "*" BorderWidth 0, HandleWidth 4
+
+Style "Fvwm*"        NoTitle, Sticky, WindowListSkip
+Style "FvwmPager"   StaysOnTop, NoHandles
+Style "FvwmBanner"   StaysOnTop
+Style "FvwmButtons"  NoTitle, NoHandles, Sticky, WindowListSkip,BorderWidth 5
+Style "*lock"        NoTitle, NoHandles, Sticky, WindowListSkip
+Style "xload" NoTitle
+
+#________________________________________________________________________#
+# Stuff to do at start-up
+
+AddToFunc "InitFunction"    "I" Exec xsetroot -solid black &
+#+                           "I" Module FvwmPager 0 0
+#+                           "I" Exec xloadimage -onroot -fullscreen ~/pics/beach.jpg &
+AddToFunc "RestartFunction" "I" Module FvwmButtons
+#+                           "I" Module FvwmPager 0 0
+#+                           "I" Exec xloadimage -onroot -fullscreen ~/pics/beach.jpg &
+
+AddToFunc RestartFunction I Module FvwmBacker
+AddToFunc InitFunction I Module FvwmBacker
+*FvwmBacker: Desk 0 -solid MidnightBlue
+
+#________________________________________________________________________#
+# Now define some handy complex functions
+
+# This one moves and then raises the window if you drag the mouse,
+# only raises the window if you click, or does a full maximize if 
+# you double click
+#
+AddToFunc "Move-or-Raise" "M" Move
++                         "M" Raise
++                         "C" Raise
++                         "D" Maximize 100 100
+
+# This one moves and then lowers the window if you drag the mouse,
+# only lowers the window if you click, or does a RaiseLower if you double 
+# click
+AddToFunc "Move-or-Lower" "M" Move
++                         "M" Lower
++                         "C" Lower
++                         "D" RaiseLower
+
+# This one moves or (de)iconifies:
+AddToFunc "Move-or-Iconify" "M" Move
++                           "D" Iconify
+
+# This one resizes and then raises the window if you drag the mouse,
+# only raises the window if you click,  or does a RaiseLower if you double 
+# click
+AddToFunc "Resize-or-Raise" "M" Resize
++                           "M" Raise
++                           "C" Raise
++                           "D" RaiseLower
+
+#________________________________________________________________________#
+# MENU SPECIFICATIONS
+
+AddToMenu "channel" "channel" Title
++ "ch1"		Exec ifconfig wi0 chan 1
++ "ch2"		Exec ifconfig wi0 chan 2
++ "ch3"		Exec ifconfig wi0 chan 3
++ "ch4"		Exec ifconfig wi0 chan 4
++ "ch5"		Exec ifconfig wi0 chan 5
++ "ch6"		Exec ifconfig wi0 chan 6
++ "ch7"		Exec ifconfig wi0 chan 7
++ "ch8"		Exec ifconfig wi0 chan 8
++ "ch9"		Exec ifconfig wi0 chan 9
++ "ch10"		Exec ifconfig wi0 chan 10
+
+AddToMenu "wifi" "wifi" Title
++ "channel" popup channel
++ "ping-wan" Exec xterm -name xterm-stat -geometry 87x5+0+360 -e ping -c 4 -w 5 206.13.30.12 
++ "ping-lan" Exec xterm -name xterm-stat -geometry 87x5+0+360 -e ping -c 4 -w 5 192.168.168.1 
++ "ping-emc" Exec xterm -name xterm-stat -geometry 87x5+0+360 -e ping -c 4 -w 5 emc.com 
++ "dhclient wi0"		Exec xterm -name xterm-stat -geometry 87x5+0+20 -e sudo dhclient -d wi0
++ "dhckill wi0 "		Exec xterm -name xterm-stat -geometry 87x5+0+20 -e sudo dhclient -k wi0
++ "dstumbler"	Exec xterm -T dstumbler -geometry 87x30+0+0 -e sudo stumble.sh
++ "etherape wi0" Exec sudo etherape -n -i wi0 &
++ "homewifi"   	Exec xterm -name xterm-stat -geometry 87x5 -e sudo /usr/local/sbin/netconfig.sh homewifi
++ "kismet" Exec xterm -e sudo kismet &
++ "ovpn home"		Exec xterm -name xterm-stat -geometry 87x5+0+30 -e sudo openvpn /etc/openvpn/home.conf 
++ "ovpn work"		Exec xterm -name xterm-stat -geometry 87x5+0+30 -e sudo openvpn /etc/openvpn/work.conf
++ "killvpn"	Exec xterm -T killVPN -name xterm-stat -e sudo netconfig.sh killvpnwifi
++ "intdns"	Exec xterm -T intdns -name xterm-stat -e sudo netconfig.sh homedns
++ "extdns"	Exec xterm -T extdns -name xterm-stat -e sudo netconfig.sh extdns
++ "tcpstat" Exec sudo xterm -name xterm-stat -geometry 87x5+0+220 -e tcpstat -i wi0 -l -p 2 
++ "delip" Exec sudo xterm -name xterm-stat -geometry 87x5+0+220 -e ifconfig wi0 delete 
++ "nwid any" Exec sudo xterm -name xterm-stat -geometry 87x5+0+220 -e ifconfig wi0 -nwid 
++ "vpnlog" Exec xterm -name xterm-stat -geometry 87x5+0+15 -e sudo tail -n 30  -f /var/log/openvpn-connection.log
++ "aimsniff wi0" Exec sudo xterm -name xterm-bng -e aimsniff -d=wi0nodb &
+
+
+AddToMenu "System" "System" Title
++ "Screen" popup Screen
++ "daemonlog" Exec xterm -T "Daemon Log tail Monitor" -name xterm-stat -geometry 87x5+0+120 -e sudo tail -n 50 -f /var/log/daemon
++ "gkrellm" Exec gkrellm &
++ "netstat"	Exec xterm -name xterm-stat -geometry 87x15+0+250 -e sudo netst.sh 
++ "ps ax" Exec xterm -T "Process List" -name xterm-stat -geometry 87x30+0+0 -e psax.sh
++ "screenshot" Exec scrot '%Y-%m-%d_%H-%M.png' -c -d 8 -e 'mv $f ~/screenshots/'
++ "syslog" Exec xterm -T "Syslog tail Monitor" -name xterm-stat -geometry 87x5+0+10 -e sudo tail -n 50 -f /var/log/messages
++ "systat vmstat" Exec xterm -T "systat vmstat" -name xterm-stat -e sudo systat vmstat
++ "top"	Exec xterm -name xterm-stat -T Top -e top &
++ "xvkbd" Exec xvkbd &
++ "cups-start" Exec sudo cupsd &
++ "cups-kill" Exec sudo pkill cupsd &
+
+AddToMenu "Analyzers" "Analyzers" Title
++ "aimsniff ne0" Exec sudo xterm -name xterm-bng -e aimsniff -d=ne0nodb &
++ "etherape ne0" Exec sudo etherape -n -i ne0 &
++ "ettercap wi0" Exec sudo xterm -name xterm-bng -e ettercap -zCi wi0 &
++ "ifstat" Exec xterm -name xterm-stat -geometry 87x15+0+240 -e sudo ifstat &
++ "netdude" Exec sudo netdude &
++ "pktstat-ne0" Exec sudo xterm -e pktstat -B -c -i ne0 -n -l -T &
++ "tcpflow" Exec sudo xterm -name xterm-stat -e tcpflow &
++ "tcpstat" Exec sudo xterm -name xterm-stat -e tcpstat -i ne0 -s 5 -a -B &
++ "trafshow wi0" Exec sudo xterm -name xterm-stat -e trafshow -i wi0 &
++ "trafshow ne0" Exec sudo xterm -name xterm-stat -e trafshow -i ne0 &
+
+AddToMenu "Audio" "Audio" Title
++ "audacious" Exec audacious &
+
+AddToMenu "Office" "Office" Title
++ "dia" Exec dia &
++ "osmo" Exec osmo &
++ "siag" Exec siag &
+
+AddToMenu "Internet" "Internet" Title
++ "coccinella" Exec coccinella &
++ "dillo" Exec dillo &
++ "gftp" Exec gftp &
++ "firefox" Exec firefox &
++ "elinks" Exec xterm -e elinks google.com &
++ "links" Exec xterm -e links google.com &
++ "mutt" Exec xterm -name xterm-bng -e mutt &
++ "pidgin" Exec pidgin &
++ "pork" Exec xterm -e pork &
++ "snownews" Exec xterm -e snownews &
++ "sylpheed" Exec sylpheed &
++ "vnc-dev1:1" Exec vncviewer dev1:1 &
++ "vnc-dev1:2" Exec vncviewer dev1:2 &
++ "w3m" Exec xterm -e w3m www.google.com &
++ "xchat" Exec xchat &
+
+AddToMenu "Editors" "Editors" Title
++ "abiword" Exec abiword &
++ "beaver" Exec beaver &
++ "bluefish" Exec bluefish &
++ "gimp" Exec gimp-2.2 &
++ "gq" Exec gq &
++ "ldapvi" Exec xterm -e ldapvi &
++ "nedit" Exec nedit &
++ "SciTE" Exec SciTE &
++ "Ted" Exec Ted &
++ "vi" Exec xterm -e vi &
+
+AddToMenu "Screen" "Screen" Title
++ "bright 10" Exec wsconsctl display.brightness=10 &
++ "bright 20" Exec wsconsctl display.brightness=20 &
++ "bright 40" Exec wsconsctl display.brightness=40 &
++ "bright 60" Exec wsconsctl display.brightness=60 &
++ "bright 80" Exec wsconsctl display.brightness=80 &
++ "bright 100" Exec wsconsctl display.brightness=100 &
+
+AddToMenu "SwapMenu" "SwapMenu" Title
++ AllYouNeed	Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeed/.fvwm2rc
++ BorderLess	Restart fvwm -f ~/.fvwm/FVWMConfigs/Borderless/.fvwm2rc
++ AllYouNeedAndMore	Restart fvwm -f ~/.fvwm/FVWMConfigs/AllYouNeedAndMore/Startrc
++ Default	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default/.fvwm2rc
++ Default2	Restart fvwm -f ~/.fvwm/FVWMConfigs/Default2/.fvwm2rc
++ ljing 	Restart fvwm -f ~/.fvwm/FVWMConfigs/Zaurus/.fvwm2rc
++ dotfvwm	Restart fvwm -f ~/.fvwm/FVWMConfigs/dotfvwmrc/.fvwm2rc
++ FVWMatrix	Restart fvwm -f ~/.fvwm/FVWMConfigs/FVWMatrix/.fvwm2rc
+
+
+# SUBMENU
+AddToMenu "Quit-Verify" "Really Quit Fvwm?" Title
++ "Restart"		Restart fvwm2
++ "Swap Config"		Popup SwapMenu
++ "" 					Nop
++ "Yes, Really Quit"	Quit
++ "No, Don't Quit" 	Nop
++ "Sleep" Exec zzz -S &
+
+# Provides a list of modules to fire off
+AddToMenu "Module-Popup" "Modules" Title
++ "Buttons"		Module FvwmButtons
++ "Clean-Up"		Module FvwmClean
++ "Task bar" 		Module FvwmTaskBar
++ "Identify"		Module FvwmIdent
++ "Save Desktop"	Module FvwmSave
++ "Debug"		Module FvwmDebug
++ "Pager"		Module FvwmPager 0 0
++ "Window List"		Module FvwmWinList
++ "Talk"		Module FvwmTalk
++ "Configure"		Module FvwmConfig
+
+# This menu will fire up some very common utilities
+AddToMenu "Utilities" "Utilities" Title
++ "Menu edit"		Exec xterm -name xterm-bng -geometry 85x20 -T menuEdit -e vi ~/.fvwm/.fvwm2rc
++ "Calculator"		Exec xcalc &
++ "Gentoo" 		Exec gentoo &
++ "Galculator"		Exec galculator &
++ "Gringotts"		Exec gringotts &
++ "Manual pages" 	Exec xman &
++ "Magnifying glass" 	Exec xmag &
++ "Rox Filer" 		Exec rox &
++ "sattrack"		Exec xterm -e sattrack
++ ""					Nop
++ "Lock Screen"		Popup Screenlock
++ "Refresh Screen"	Refresh
+
+AddToMenu "Main" "Main" Title
++ "xterm" Exec xterm &
++ "mrxvt" Exec mrxvt -fg green -bg black &
++ ""					Nop
++ "Analyzers" Popup Analyzers
++ "Internet" Popup Internet
++ "Wifi" Popup wifi
++ ""					Nop
++ "Audio" Popup Audio
++ "Editors" Popup Editors
++ "Office" Popup Office
++ "Utilities" Popup Utilities
++ "System" Popup System
++ ""					Nop
++ "Modules"		Popup Module-Popup
++ ""					Nop
++ "Exit Fvwm"		Popup Quit-Verify
+
+# This defines the most common window operations
+AddToMenu "Window" "Window Ops" Title
++ "&Move"                     Function Move-or-Raise
++ "&Resize"                   Function Resize-or-Raise
++ "R&aise"    Raise
++ "&Lower"    Lower
++ "(De)Iconify"               Iconify
++ "(Un)Stick"                 Stick
++ "(Un)Maximize"              Maximize 100 100
++ ""                          Nop
++ "Kill"                      Destroy
++ "&Close"                    Delete
++ ""                          Nop
++ "Switch to..."              WindowList
++ "Refresh Screen" Refresh
+
+# A trimmed down version of "Window Ops", good for binding to decorations
+AddToMenu "Window-Ops2" "&Restore"        Iconify -1
++                       "&Move"           Move-or-Raise
++                       "&Size"           Resize-or-Raise
++                       "Mi&nimize"       Iconify 1
++                       "Ma&ximize"       Maximize 100 100
++                       ""                Nop
++                       "&Kill"           Destroy
++                       "&Close	Alt+F4"   Delete
+
+#________________________________________________________________________#
+
+# One more complex function - couldn't be defined earlier because it used 
+# pop-up menus
+# This creates the "system" menu for the title-bar window-ops
+# pop-up
+AddToFunc "window_ops_func" "C" PopUp Window-Ops2
++              "M" PopUp Window-Ops2
++              "D" Delete  
+
+#________________________________________________________________________#
+# MOUSE BINDINGS
+
+# First, for the mouse in the root window
+# Button 1 gives the Utilities menu
+# Button 2 gives the Window Ops menu
+# Button 3 gives the WindowList (like TwmWindows)
+# I use the AnyModifier (A) option for the modifier field, so you can hold down
+# any shift-control-whatever combination you want!
+
+#     Button	Context Modifi 	Function
+Mouse 1		R   	A       Menu "" Nop
+Mouse 2         R       A       WindowList
+Mouse 3		R   	A       Menu "Main" Nop
+#Mouse 3		R    	A       Menu "Window Ops" Nop
+#Mouse 3	R    	A      	Module "winlist" FvwmWinList transient
+
+# Now the title bar buttons
+# Any button in the left title-bar button gives the window ops menu
+# Any button in the first right title-bar button Iconifies the window
+# Any button in the second title-bar button full-maximizes
+# Any button in the third (rightmost) title-bar button closes
+# Note the use of "Mouse 0" for AnyButton.
+
+#     Button	Context Modif 	Function
+Mouse 0		1    	A      	Function "window_ops_func"
+Mouse 1         2       A       Delete
+Mouse 0		4    	A     	Maximize 100 100
+Mouse 0		6    	A     	Iconify
+
+# Now the rest of the frame
+# Here I invoke my complex functions for Move-or-lower, Move-or-raise,
+# and Resize-or-Raise. 
+# Button 1 in the corner pieces, with any modifiers, gives resize or raise
+Mouse 1		F	A	Function "Resize-or-Raise"
+# Button 1 in the title, sides, or icon, w/ any modifiers, gives move or raise
+Mouse 1		TS	A	Function "Move-or-Raise"
+
+# Button 1 in an icons gives move for a drag, de-iconify for a double-click,
+# nothing for a single click
+# Button 2 in an icon, w/ any modifiers, gives de-iconify
+Mouse 1		I	A	Function "Move-or-Iconify"
+Mouse 2		I	A	Iconify
+
+# Button 2 in the corners, sides, or title-bar gives the window ops menu
+Mouse 2		FST	A	Function "window_ops_func"
+
+# Button 3 anywhere in the decoration (except the title-bar buttons)
+# does a raise-lower
+Mouse 3		TSIF	A	RaiseLower
+
+# Button 3 in the window, with the Modifier-1 key (usually alt or diamond)
+# gives Raise-Lower. Used to use control here, but that interferes with xterm
+Mouse 3         W       M       RaiseLower
+
+#________________________________________________________________________#
+# KEYBOARD SHORTCUTS
+
+# Arrow Keys
+# press arrow + control anywhere, and scroll by 1 page
+Key Left	A	C	Scroll -100 0
+Key Right	A	C	Scroll +100 +0
+Key Up		A	C	Scroll +0   -100
+Key Down	A	C	Scroll +0   +100
+
+# press arrow + meta key, and scroll by 1/10 of a page
+Key Left	A	M	Scroll -10 +0
+Key Right	A	M	Scroll +10 +0
+Key Up		A	M	Scroll +0   -10
+Key Down	A	M	Scroll +0   +10
+
+# press shift arrow + control anywhere, and move the pointer by 1% of a page
+Key Left	A	SC	CursorMove -1 0
+Key Right	A	SC	CursorMove +1 +0
+Key Up		A	SC	CursorMove +0   -1
+Key Down	A	SC	CursorMove +0   +1
+
+# press shift arrow + meta key, and move the pointer by 1/10 of a page
+Key Left	A	SM	CursorMove -10 +0
+Key Right	A	SM	CursorMove +10 +0
+Key Up		A	SM	CursorMove +0   -10
+Key Down	A	SM	CursorMove +0   +10
+
+# Keyboard accelerators
+#Key F1		A	M	Popup "Utilities"
+#Key F2		A	M	Popup "Window Ops"
+
+#Page Up/Page Down keys are used to scroll by one desktop page
+# in any context, press page up/down + control
+# in root context, just pressing page up/down is OK
+# 
+# I prefer the non-wrapping scroll. These are for example purposes only
+#Key Next	A       C       Scroll 100000 0
+#Key Next	R       N       Scroll 100000 0  
+#Key Prior	A       C       Scroll -100000 0
+#Key Prior	R       N       Scroll -100000 0
+Key Tab         A       M       Prev Focus
+Key Tab         A       MS      Next Focus
+
+Key F5		A       C      	WindowList
+Key F5    	A       M	Menu "Window-Ops2"
+
+#________________________________________________________________________#
+
+Key F1		A	A	Exec mrxvt -fg green -bg black -e screen &
+Key F2		A	A	Exec dillo http://www.google.com &
+Key F3		A	A	Exec xterm -name xterm -e mutt &
+Key F4		A	A	Exec rox &
+Key F5          A       N       Menu "Main"
+
+#________________________________________________________________________#
+
+# Definitions used by the modules
+#________Pager
+Style "FvwmPager" NoTitle,HandleWidth 0
+*FvwmPagerBack black
+
+# labels and gridlines
+*FvwmPagerFore blue
+*FvwmPagerFont -adobe-helvetica-bold-r-*-*-10-*-*-*-*-*-*-*
+*FvwmPagerHilight #c0c0c0
+*FvwmPagerGeometry -1-1
+*FvwmPagerLabel 0 Desktop
+*FvwmPagerSmallFont 5x8
+*FvwmPagerSolidSeparators
+
+#________Identify
+*FvwmIdentBack #000080
+*FvwmIdentFore Yellow
+*FvwmIdentFont -adobe-helvetica-medium-r-*-*-12-*-*-*-*-*-*-*
+
+#________FvwmWinList
+*FvwmWinListBack #c0c0c0
+*FvwmWinListFore Black
+*FvwmWinListFont -adobe-helvetica-bold-r-*-*-10-*-*-*-*-*-*-*
+*FvwmWinListAction Click1 Iconify -1,Focus
+*FvwmWinListAction Click2 Iconify
+*FvwmWinListAction Click3 Module "FvwmIdent" FvwmIdent
+*FvwmWinListUseSkipList
+*FvwmWinListGeometry +0-1
+*FvwmWinListShowCurrentDesk
+*FvwmWinListFocusBack Grey
+        
+#________FvwmTaskBar
+Style "FvwmTaskBar" NoTitle,BorderWidth 4,HandleWidth 4,Sticky,StaysOnTop,WindowListSkip,CirculateSkip
+
+*FvwmTaskBarGeometry +0-0
+*FvwmTaskBarFore Black
+*FvwmTaskBarBack #c0c0c0
+*FvwmTaskBarTipsFore black
+*FvwmTaskBarTipsBack bisque
+*FvwmTaskBarFont -adobe-helvetica-medium-r-*-*-*-120-*-*-*-*-*-*
+*FvwmTaskBarSelFont -adobe-helvetica-bold-r-*-*-*-120-*-*-*-*-*-*
+*FvwmTaskBarAction Click1 Iconify -1,Raise,Focus
+*FvwmTaskBarAction Click2 Iconify
+*FvwmTaskBarAction Click3 Module "FvwmIdent" FvwmIdent
+*FvwmTaskBarUseSkipList
+*FvwmTaskBarAutoStick
+*FvwmTaskBarStartName Start
+*FvwmTaskBarStartMenu StartMenu
+*FvwmTaskBarStartIcon mini-exp.xpm
+*FvwmTaskBarShowTips
+#*FvwmTaskBarShowTransients
+#*FvwmTaskBarClockFormat p
+#*FvwmTaskBarHighlightFocus
+#*FvwmTaskBarAutoHide
+*FvwmTaskBarMailCommand Exec nxterm -T Mail -ls -fn 8x13 -e pine -i
+
+
